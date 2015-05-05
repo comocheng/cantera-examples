@@ -1,5 +1,6 @@
 """
-Constant-pressure, adiabatic kinetics simulation.
+Constant-volume, adiabatic kinetics simulation.
+This is how most people model an idealized shock tube.
 """
 
 import sys
@@ -7,19 +8,10 @@ import numpy as np
 
 import cantera as ct
 
-gri3 = ct.Solution('gri30.xml')
-air = ct.Solution('air.xml')
+gas = ct.Solution('gri30.xml')
 
-gri3.TPX = 1001.0, ct.one_atm, 'H2:2,O2:1,N2:4'
-r = ct.IdealGasReactor(gri3)
-env = ct.Reservoir(air)
-
-# Define a wall between the reactor and the environment, and
-# make it flexible, so that the pressure in the reactor is held
-# at the environment pressure.
-w = ct.Wall(r, env)
-w.expansion_rate_coeff = 1.0e6  # set expansion parameter. dV/dt = KA(P_1 - P_2)
-w.area = 1.0
+gas.TPX = 1001.0, ct.one_atm, 'H2:2,O2:1,N2:4'
+r = ct.IdealGasReactor(gas)
 
 sim = ct.ReactorNet([r])
 time = 0.0
