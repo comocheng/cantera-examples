@@ -30,7 +30,7 @@ print('%10s %10s %10s %14s' % ('t [s]','T [K]','P [Pa]','u [J/kg]'))
 for n in range(100):
     time += 1.e-5
     sim.advance(time)
-    times[n] = time * 1e3  # time in ms
+    times[n] = time # time in s
     data[n,0] = r.T
     data[n,1:] = r.thermo['OH','H','H2'].X
     print('%10.3e %10.3f %10.3f %14.6e' % (sim.time, r.T,
@@ -42,19 +42,19 @@ if '--plot' in sys.argv[1:]:
     import matplotlib.pyplot as plt
     plt.clf()
     plt.subplot(2, 2, 1)
-    plt.plot(times, data[:,0])
+    plt.plot(times*1e3, data[:,0])
     plt.xlabel('Time (ms)')
     plt.ylabel('Temperature (K)')
     plt.subplot(2, 2, 2)
-    plt.plot(times, data[:,1])
+    plt.plot(times*1e3, data[:,1])
     plt.xlabel('Time (ms)')
     plt.ylabel('OH Mole Fraction')
     plt.subplot(2, 2, 3)
-    plt.plot(times, data[:,2])
+    plt.plot(times*1e3, data[:,2])
     plt.xlabel('Time (ms)')
     plt.ylabel('H Mole Fraction')
     plt.subplot(2, 2, 4)
-    plt.plot(times,data[:,3])
+    plt.plot(times*1e3,data[:,3])
     plt.xlabel('Time (ms)')
     plt.ylabel('H2 Mole Fraction')
     plt.tight_layout()
